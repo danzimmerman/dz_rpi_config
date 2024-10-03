@@ -12,3 +12,5 @@ chmod +x ~/dz_rpi_config/install_apt_deps.sh
 chmod +x ~/dz_rpi_config/set_up_bash_config.sh
 ~/dz_rpi_config/set_up_bash_config.sh
 ```
+
+After this, `~/.bashrc` will incorporate all the changes in `bash_config/.bashrc_additions` and `~/.bash_aliases` and `~/.inputrc` will be softlinks that point to their counterparts in this repo.

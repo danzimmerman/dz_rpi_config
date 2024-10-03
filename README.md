@@ -26,10 +26,12 @@ https://www.waveshare.com/wiki/2-CH_CAN_HAT#For_64-bit_Raspberry_Pi_System
 Add the following to `/boot/firmware/config.txt`:
 
 ```
-dtoverlay=mcp2515-can1,oscillator=16000000,interrupt=25
-dtoverlay=mcp2515-can0,oscillator=16000000,interrupt=23
+dtoverlay=mcp2515-can1-overlay,oscillator=16000000,interrupt=25,spimaxfrequency=500000
+dtoverlay=mcp2515-can0-overlay,oscillator=16000000,interrupt=23,spimaxfrequency=500000
 dtoverlay=spi-bcm2835-overlay
 ```
+
+For SPI max freq see https://raspberrypi.stackexchange.com/a/94468/92623
 
 ## Network Setup
 

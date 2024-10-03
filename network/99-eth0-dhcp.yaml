@@ -1,4 +1,4 @@
-# static basic IP config
+# dhcp basic IP config
 network:
   version: 2
   renderer: networkd

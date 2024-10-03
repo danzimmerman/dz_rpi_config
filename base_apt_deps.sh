@@ -3,7 +3,7 @@ sudo apt install \
   tmux \
   stress \
   gh \
-  python-rpi.gpio \
+  python3-rpi.gpio \
   iftop \
   nload \
   iperf3 \

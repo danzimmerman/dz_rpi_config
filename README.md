@@ -9,8 +9,8 @@ After cloning the repo into my home directory:
 ```
 chmod +x ~/dz_rpi_config/install_apt_deps.sh
 ~/dz_rpi_config/install_apt_deps.sh
-chmod +x ~/dz_rpi_config/set_up_bash_config.sh
-~/dz_rpi_config/set_up_bash_config.sh
+chmod +x ~/dz_rpi_config/set_up.sh
+~/dz_rpi_config/set_up.sh
 ```
 
 After this, `~/.bashrc` will incorporate all the changes in `bash_config/.bashrc_additions` and `~/.bash_aliases` and `~/.inputrc` will be softlinks that point to their counterparts in this repo.
@@ -30,3 +30,7 @@ dtoverlay=mcp2515-can1,oscillator=16000000,interrupt=25
 dtoverlay=mcp2515-can0,oscillator=16000000,interrupt=23
 dtoverlay=spi-bcm2835-overlay
 ```
+
+## Network Setup
+
+This copies the file `network/99-eth0-dhcp.yaml` to `/etc/netplan` and sets permissions.

@@ -17,3 +17,7 @@ if [[ -d ~/dz_rpi_config && ! -f ~/.inputrc && ! -f ~/.bash_aliases ]]; then
 else
   echo "Attempting to softlink ~/.bash_aliases and ~/.inputrc but one of them was found. Remove them if this is not expected."
 fi
+
+echo "Copying eth0 netplan configuration to /etc/netplan"
+sudo cp ~/dz_rpi_config/network/99-eth0-dhcp.yaml /etc/netplan
+sudo chmod 600 /etc/netplan/99-eth0-dhcp.yaml

@@ -66,5 +66,7 @@ This keeps, for example, a clean separation between ROS 2 and Conda environments
 
 ## Install ROS 2
 
-Follow the instructions at https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html but don't modify `.bashrc`. The `ros2-setup` command in `.bash_aliases` does this and also adds a `(jazzy)` to the ROS 2 prompt.
+Follow the instructions at https://github.com/danzimmerman/dz_rpi_config/wiki/installing_ros2#ros-2-jazzy-source-install to see some quirks and tweaks for Bookworm source install.
+
+Don't modify `.bashrc` for sourcing the workspace `local_setup.bash` script. The `ros2-setup` command in `.bash_aliases` does this and also adds a `(jazzy)` to the ROS 2 prompt.
 

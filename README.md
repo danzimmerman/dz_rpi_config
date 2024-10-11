@@ -48,15 +48,14 @@ This copies the file `network/99-eth0-dhcp.yaml` to `/etc/netplan` and sets perm
 Download the latest `miniforge3` from https://github.com/conda-forge/miniforge
 
 ```
-mkdir -p downloads
-cd downloads
+cd ~/Downloads
 wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh
 ```
 
 Then install using the "quiet" trick, so that there are no permanent mods to `.bashrc`:
 
 ```
- bash ~/downloads/Miniforge3-Linux-aarch64.sh -b -s -p ~/.local/opt/miniforge3
+ bash ~/Downloads/Miniforge3-Linux-aarch64.sh -b -s -p ~/.local/opt/miniforge3
  mkdir -p ~/.local/bin
  ln -s ~/.local/opt/miniforge3/condabin/conda ~/.local/bin/conda
 ```

@@ -2,6 +2,10 @@
 
 Semi-automatic setup of a Raspberry Pi with my desired bash additions, packages of interest, etc.
 
+The `main` branch assumes Ubuntu Noble. I'm using Ubuntu Server.
+
+The `bookworm` branch assumes Raspberry Pi OS based on Debian Bookworm.
+
 ## Initial Setup
 
 After cloning the repo into my home directory:
@@ -26,12 +30,14 @@ https://www.waveshare.com/wiki/2-CH_CAN_HAT#For_64-bit_Raspberry_Pi_System
 Add the following to `/boot/firmware/config.txt`:
 
 ```
-dtoverlay=mcp2515-can1-overlay,oscillator=16000000,interrupt=25,spimaxfrequency=500000
-dtoverlay=mcp2515-can0-overlay,oscillator=16000000,interrupt=23,spimaxfrequency=500000
-dtoverlay=spi-bcm2835-overlay
+# Enable Waveshare 2CH Isolated CAN Hat
+dtoverlay=mcp2515,spi0-0,oscillator=16000000,interrupt=25
+dtoverlay=mcp2515,spi0-1,oscillator=16000000,interrupt=23
 ```
 
-For SPI max freq see https://raspberrypi.stackexchange.com/a/94468/92623
+and make sure to uncomment `dtparam=spi=on` to enable SPI.
+
+💡 NOTE: The CAN hat does not yet work on Ubuntu Server, I think because of the new RP1 I/O interface chip. See [issues/#1](issues/#1)
 
 ## Network Setup
 

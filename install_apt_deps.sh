@@ -11,4 +11,7 @@ sudo apt install \
   iperf3 \
   chrony \
   can-utils \
+  python3-rosdep \
+  python3-vcstool \
+  ros-dev-tools
   -y

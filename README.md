@@ -37,7 +37,7 @@ dtoverlay=mcp2515,spi0-1,oscillator=16000000,interrupt=23
 
 and make sure to uncomment `dtparam=spi=on` to enable SPI.
 
-💡 NOTE: The CAN hat does not yet work on Ubuntu Server, I think because of the new RP1 I/O interface chip. See [issues/#1](issues/#1)
+💡 NOTE: The CAN hat does not yet work on Ubuntu Server, I think because of the new RP1 I/O interface chip. See [issues/#1](https://github.com/danzimmerman/dz_rpi_config/issues/1)
 
 ## Network Setup
 

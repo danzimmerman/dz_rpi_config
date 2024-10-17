@@ -56,3 +56,9 @@ dtoverlay=mcp2515,spi0-1,oscillator=16000000,interrupt=23
 
 #Enable RTC battery charge
 dtparam=rtc_bbat_vchg=3000000
+
+# From https://github.com/by/RT-Kernel re: custom RT kernel
+# I'm just sticking with "NTP" naming but didn't apply all the specific settings yet
+os_prefix=NTP/
+overlay_prefix=overlays-NTP/
+kernel=/kernel_2712-NTP.img

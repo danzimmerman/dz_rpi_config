@@ -1,0 +1,21 @@
+repositories:
+  src/diagnostics:
+    type: git
+    url: https://github.com/ros/diagnostics.git
+    version: ros2
+  src/ros2_controllers:
+    type: git
+    url: https://github.com/ros-controls/ros2_controllers
+    version: master
+  src/ros2_control:
+    type: git
+    url: https://github.com/ros-controls/ros2_control.git
+    version: master
+  src/realtime_tools:
+    type: git
+    url: https://github.com/ros-controls/realtime_tools.git
+    version: master
+  src/generate_parameter_library:
+    type: git
+    url: https://github.com/picknikrobotics/generate_parameter_library.git
+    version: main

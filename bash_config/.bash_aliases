@@ -1,3 +1,5 @@
+alias cdros="cd ~/ros2ws"
+alias clean-ros-logs="rm -r ~/.ros/log/*"
 can-init(){
   for iface in can0 can1; do 
     echo Taking $iface down and back up.

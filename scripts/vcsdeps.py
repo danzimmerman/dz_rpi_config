@@ -37,7 +37,11 @@ for pkg in packages:
     repo_key = package_lookup[pkg]
     # don't duplicate already
     if not repo_key in ros_repo_data.keys():
-        ros_repo_data[f"src/{repo_key}"] = all_repo_info["repositories"][repo_key]["doc"]
+        #print(repo_key)
+        src_data = all_repo_info["repositories"][repo_key]["source"]
+        if "test_pull_requests" in src_data.keys():
+            _ = src_data.pop("test_pull_requests")
+        ros_repo_data[f"src/{repo_key}"] = src_data
     
     # keep a list of packages that comes from each repo
     if not repo_key in ros_packages.keys():

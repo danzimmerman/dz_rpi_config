@@ -60,7 +60,3 @@ repos_filename = pathlib.Path("./ws_deps.repos").absolute()
 print(f"Writing {repos_filename.as_posix()}")
 with repos_filename.open("w") as rpf:
     rpf.write(yaml.dump({"repositories": ros_repo_data}))
-
-print("System Package Installation")
-pkgstr = " ".join(system_packages)
-print(f"sudo apt install {pkgstr}")

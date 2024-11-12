@@ -20,3 +20,4 @@ ros2-setup(){
   ros2-base && source ~/ros2ws/install/local_setup.bash
 }
 alias rpi-temp="vcgencmd measure_temp && vcgencmd get_throttled"
+alias dubig="du -h | sort -h -k1 -r"

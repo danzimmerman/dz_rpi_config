@@ -1,4 +1,6 @@
 alias cdros="cd ~/ros2ws"
+alias cdsrc="cd ~/.local/opt/ros/jazzy_ws"
+alias cdext="cd ~/.local/opt/ros/jazzy_extras_ws"
 alias clean-ros-logs="rm -r ~/.ros/log/*"
 can-init(){
   for iface in can0 can1; do 

@@ -5,6 +5,12 @@
 		},
 		{
 			"path": "../../ros2ws"
+		},
+		{
+			"path": "../../../../usr/lib/python3/dist-packages"
+		},
+		{
+			"path": ".."
 		}
 	]
 }

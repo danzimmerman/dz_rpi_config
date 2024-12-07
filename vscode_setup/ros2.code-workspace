@@ -1,0 +1,10 @@
+{
+    "folders": [
+		{
+			"path": "../../.local/opt/ros/jazzy_ws"
+		},
+		{
+			"path": "../../ros2ws"
+		}
+	]
+}

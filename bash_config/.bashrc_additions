@@ -1,5 +1,6 @@
-# placeholder for version-controlled additions to bashrc
+# version-controlled additions to bashrc
 
 export DZ_RPI_CONFIG_INSTALLED=1
 export ROS_DOMAIN_ID=17
 export PATH=$PATH:~/.local/bin
+export ZENOH_ROUTER_CONFIG_URI=$HOME/dz_rpi_config/zenoh/HOME_LOCAL_RMW_ZENOH_ROUTER_CONFIG.json5

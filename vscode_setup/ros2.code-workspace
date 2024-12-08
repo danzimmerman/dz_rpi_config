@@ -1,15 +1,23 @@
 {
     "folders": [
 		{
+			"name": "jazzy_ws",
 			"path": "../../.local/opt/ros/jazzy_ws"
 		},
 		{
+			"name": "jazzy_extras_ws",
+			"path": "../../.local/opt/ros/jazzy_extras_ws"
+		},
+		{
+			"name": "ros2ws",
 			"path": "../../ros2ws"
 		},
 		{
+			"name": "dist-packages",
 			"path": "../../../../usr/lib/python3/dist-packages"
 		},
 		{
+			"name": "dz_rpi_config",
 			"path": ".."
 		}
 	]

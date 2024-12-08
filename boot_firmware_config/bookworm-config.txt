@@ -62,3 +62,6 @@ dtparam=rtc_bbat_vchg=3000000
 os_prefix=NTP/
 overlay_prefix=overlays-NTP/
 kernel=/kernel_2712-NTP.img
+
+# Disable Command Queueing for Samsung 128GB Card
+dtparam=sd_cqe=off

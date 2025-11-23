@@ -1,0 +1,22 @@
+tasks:
+  - name: Ensure SPI is enabled in /boot/firmware/config.txt
+    become: true
+    ansible.builtin.lineinfile:
+      path: /boot/firmware/config.txt
+      line: "dtparam=spi=on"
+      state: present
+  - name: Add hardware-specific config to /boot/firmware/config.txt
+    become: true
+    ansible.builtin.blockinfile:
+      path: /boot/firmware/config.txt
+      block: |
+        # Enable SPI and configure two MCP2515 CAN controllers
+        dtoverlay=mcp2515,spi0-0,oscillator=16000000,interrupt=25
+        dtoverlay=mcp2515,spi0-1,oscillator=16000000,interrupt=23
+        
+        # Enable RTC battery charge
+        dtparam=rtc_bbat_vchg=3000000
+
+        # Disable Command Queueing for Samsung 128GB Card
+        dtparam=sd_cqe=off
+      

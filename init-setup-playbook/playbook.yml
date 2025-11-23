@@ -1,21 +1,66 @@
 - hosts: all
-  become: true  
+  become: true
   tasks:
+    - name: Install required apt packages
+      ansible.builtin.apt:
+        name:
+          - can-utils
+          - chrony
+          - gh
+          - git
+          - htop
+          - i2c-tools
+          - iftop
+          - iperf3
+          - nload
+          - stress
+          - tmux
+        state: present
+        update_cache: true #runs apt-get update if needed
+
+    - name: Clone dz_rpi_config repository
+      ansible.builtin.git:
+        repo: "https://github.com/danzimmerman/dz_rpi_config.git"
+        dest: "/home/dan/dz_rpi_config"
+        version: "bookworm"
+
+    - name: Ensure ~/.bash_aliases is a symlink to repo version
+      ansible.builtin.file:
+        src: "/home/dan/dz_rpi_config/bash_config/.bash_aliases"
+        dest: "/home/dan/.bash_aliases"
+        state: link
+        force: true  # Overwrite if the file already exists
+
+    - name: Ensure ~/.inputrc is a symlink to repo version
+      ansible.builtin.file:
+        src: "/home/dan/dz_rpi_config/bash_config/.inputrc"
+        dest: "/home/dan/.inputrc"
+        state: link
+        force: true  # Overwrite if the file already exists
+    
+    - name: Add bashrc additions from repo
+      ansible.builtin.blockinfile:
+        path: /home/dan/.bashrc
+        block: |
+          # Custom additions from dz_rpi_config
+          if [ -f /home/dan/dz_rpi_config/bash_config/.bashrc_additions ]; then
+            . /home/dan/dz_rpi_config/bash_config/.bashrc_additions
+          fi
+    
     - name: Ensure SPI is enabled in /boot/firmware/config.txt
-      become: true
       ansible.builtin.lineinfile:
         path: /boot/firmware/config.txt
         line: "dtparam=spi=on"
         state: present
+
     - name: Add hardware-specific config to /boot/firmware/config.txt
-      become: true
       ansible.builtin.blockinfile:
         path: /boot/firmware/config.txt
         block: |
           # Enable SPI and configure two MCP2515 CAN controllers
           dtoverlay=mcp2515,spi0-0,oscillator=16000000,interrupt=25
           dtoverlay=mcp2515,spi0-1,oscillator=16000000,interrupt=23
-          
+
           # Enable RTC battery charge
           dtparam=rtc_bbat_vchg=3000000
 

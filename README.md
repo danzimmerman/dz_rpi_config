@@ -8,13 +8,14 @@ The `bookworm` branch assumes Raspberry Pi OS based on Debian Bookworm.
 
 ## Initial Setup
 
+Install Ansible from the Ubuntu PPA
+
+
+
 After cloning the repo into my home directory:
 
 ```
-chmod +x ~/dz_rpi_config/install_apt_deps.sh
-~/dz_rpi_config/install_apt_deps.sh
-chmod +x ~/dz_rpi_config/set_up.sh
-~/dz_rpi_config/set_up.sh
+ansible-playbook -i ~/dz_rpi_config/init-setup-playbook/hosts ~/dz_rpi_config/init-setup-playbook/playbook.yml
 ```
 
 After this, `~/.bashrc` will incorporate all the changes in `bash_config/.bashrc_additions` and `~/.bash_aliases` and `~/.inputrc` will be softlinks that point to their counterparts in this repo.
@@ -23,21 +24,7 @@ After this, `~/.bashrc` will incorporate all the changes in `bash_config/.bashrc
 
 ### CANBus
 
-For CAN hat, see
-
-https://www.waveshare.com/wiki/2-CH_CAN_HAT#For_64-bit_Raspberry_Pi_System
-
-Add the following to `/boot/firmware/config.txt`:
-
-```
-# Enable Waveshare 2CH Isolated CAN Hat
-dtoverlay=mcp2515,spi0-0,oscillator=16000000,interrupt=25
-dtoverlay=mcp2515,spi0-1,oscillator=16000000,interrupt=23
-```
-
-and make sure to uncomment `dtparam=spi=on` to enable SPI.
-
-💡 NOTE: The CAN hat does not yet work on Ubuntu Server, I think because of the new RP1 I/O interface chip. See [issues/#1](https://github.com/danzimmerman/dz_rpi_config/issues/1)
+This is now handled by Ansible
 
 ## Network Setup
 

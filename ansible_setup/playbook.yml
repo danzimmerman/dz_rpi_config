@@ -1,3 +1,5 @@
+# assisted by Microsoft Copilot VSCode extension 1.388.0 Nov 2025, GPT 4.1 model
+
 - hosts: rpis
   tasks:
     - name: Install required apt packages

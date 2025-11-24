@@ -1,7 +1,7 @@
 - hosts: all
-  become: true
   tasks:
     - name: Install required apt packages
+      become: true
       ansible.builtin.apt:
         name:
           - can-utils
@@ -19,12 +19,16 @@
         update_cache: true #runs apt-get update if needed
 
     - name: Clone dz_rpi_config repository
+      become: true
+      become_user: dan  
       ansible.builtin.git:
         repo: "https://github.com/danzimmerman/dz_rpi_config.git"
         dest: "/home/dan/dz_rpi_config"
         version: "bookworm"
 
     - name: Ensure ~/.bash_aliases is a symlink to repo version
+      become: true
+      become_user: dan
       ansible.builtin.file:
         src: "/home/dan/dz_rpi_config/bash_config/.bash_aliases"
         dest: "/home/dan/.bash_aliases"
@@ -32,6 +36,8 @@
         force: true  # Overwrite if the file already exists
 
     - name: Ensure ~/.inputrc is a symlink to repo version
+      become: true
+      become_user: dan
       ansible.builtin.file:
         src: "/home/dan/dz_rpi_config/bash_config/.inputrc"
         dest: "/home/dan/.inputrc"
@@ -48,12 +54,14 @@
           fi
     
     - name: Ensure SPI is enabled in /boot/firmware/config.txt
+      become: true
       ansible.builtin.lineinfile:
         path: /boot/firmware/config.txt
         line: "dtparam=spi=on"
         state: present
 
     - name: Add hardware-specific config to /boot/firmware/config.txt
+      become: true
       ansible.builtin.blockinfile:
         path: /boot/firmware/config.txt
         block: |
@@ -66,4 +74,40 @@
 
           # Disable Command Queueing for Samsung 128GB Card
           dtparam=sd_cqe=off
+    
+    - name: Download miniforge installer script
+      become: true
+      become_user: dan # typically install conda as non-root user
+      ansible.builtin.get_url:
+        url: "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh"
+        dest: "/tmp/miniforge3-latest-Linux-aarch64.sh"
+        mode: "0755"
+
+    - name: Set up .local/bin directory
+      become: true
+      become_user: dan
+      ansible.builtin.file:
+        path: "/home/dan/.local/bin"
+        state: directory
+        mode: "0755"
+
+    - name: Install Miniforge
+      become: true
+      become_user: dan  
+      ansible.builtin.command:
+        cmd: "/tmp/miniforge3-latest-Linux-aarch64.sh -b -s -p /home/dan/.local/opt/miniforge3"
+        creates: "/home/dan/.local/opt/miniforge3"
+    
+    - name: Remove Miniforge installer script after installation
+      ansible.builtin.file:
+        path: "/tmp/miniforge3-latest-Linux-aarch64.sh"
+        state: absent
       
+    - name: Softlink conda binary to ~/.local/bin
+      become: true
+      become_user: dan
+      ansible.builtin.file:
+        src: "/home/dan/.local/opt/miniforge3/bin/conda"
+        dest: "/home/dan/.local/bin/conda"
+        state: link
+        force: true

@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: rpis
   tasks:
 
     - name: Install required apt packages

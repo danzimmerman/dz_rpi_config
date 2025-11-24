@@ -20,3 +20,7 @@ For dual static IP
 ### Public SSH Keys
 
 See https://docs.ansible.com/projects/ansible/latest/collections/ansible/posix/authorized_key_module.html#examples
+
+### Secrets - Ansible Vault
+
+See https://docs.ansible.com/projects/ansible/latest/vault_guide/index.html#protecting-sensitive-data-with-ansible-vault

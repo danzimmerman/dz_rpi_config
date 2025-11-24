@@ -1,9 +1,5 @@
 - hosts: all
   tasks:
-    - name: Ensure community.general collection is installed
-      ansible.builtin.ansible_galaxy_collection:
-        name: community.general
-        state: present
 
     - name: Install required apt packages
       become: true

@@ -7,17 +7,40 @@
         name:
           - can-utils
           - chrony
+          - debconf
+          - debconf-utils
           - gh
           - git
           - htop
           - i2c-tools
           - iftop
-          - iperf3
           - nload
           - stress
           - tmux
         state: present
         update_cache: true #runs apt-get update if needed
+
+    - name: Configure apt to install iperf3 automatically in daemon mode
+      become: true
+      ansible.builtin.debconf:
+        name: iperf3
+        question: iperf3/start_daemon
+        value: true
+        vtype: boolean
+    
+    - name: Configure apt to start iperf3 daemon
+      become: true
+      ansible.builtin.debconf:
+        name: iperf3
+        question: iperf3/start_at_boot
+        value: true
+        vtype: boolean
+
+    - name: Install iperf3 package
+      become: true
+      ansible.builtin.apt:
+        name: iperf3
+        state: present
 
     - name: Clone dz_rpi_config repository
       become: true

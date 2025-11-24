@@ -98,6 +98,28 @@
 
           # Disable Command Queueing for Samsung 128GB Card
           dtparam=sd_cqe=off
+
+    - name: Add service to bring CANbus up at boot at 1MBit/s and set queue length to 1000
+      become: true
+      ansible.builtin.copy:
+        dest: /etc/systemd/system/auto_canbus.service
+        content: |
+          [Unit]
+          Description=Bring up CAN bus interfaces
+          After=network.target
+
+          [Service]
+          Type=oneshot
+            ExecStart=/sbin/ip link set can0 up type can bitrate 1000000
+            ExecStart=/sbin/ip link set can0 txqueuelen 1000
+            ExecStart=/sbin/ip link set can1 up type can bitrate 1000000
+            ExecStart=/sbin/ip link set can1 txqueuelen 1000
+          RemainAfterExit=yes
+
+          [Install]
+          WantedBy=multi-user.target
+      notify:
+        - enable_and_start_canbus_service_handler
     
     - name: Check if Miniforge is already installed
       ansible.builtin.stat:
@@ -192,3 +214,11 @@
       args:
         executable: /bin/bash
       when: not jazzy_env_stat.stat.exists
+
+  handlers:
+    - name: enable_and_start_canbus_service_handler
+      become: true
+      ansible.builtin.systemd:  
+        name: auto_canbus.service
+        enabled: true
+        state: restarted

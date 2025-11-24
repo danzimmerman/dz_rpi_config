@@ -76,6 +76,11 @@
           # Disable Command Queueing for Samsung 128GB Card
           dtparam=sd_cqe=off
     
+    - name: Check if Miniforge is already installed
+      ansible.builtin.stat:
+        path: "/home/dan/.local/opt/miniforge3"
+      register: miniforge_stat
+
     - name: Download miniforge installer script if miniconda3 is not already installed
       become: true
       become_user: dan # typically install conda as non-root user
@@ -83,7 +88,7 @@
         url: "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh"
         dest: "/tmp/miniforge3-latest-Linux-aarch64.sh"
         mode: "0755"
-      when: not ansible.builtin.stat(path="/home/dan/.local/opt/miniforge3").stat.exists
+      when: not miniforge_stat.stat.exists
 
     - name: Set up .local/bin directory
       become: true
@@ -99,7 +104,7 @@
       ansible.builtin.command:
         cmd: "/tmp/miniforge3-latest-Linux-aarch64.sh -b -s -p /home/dan/.local/opt/miniforge3"
         creates: "/home/dan/.local/opt/miniforge3"
-      when: not ansible.builtin.stat(path="/home/dan/.local/opt/miniforge3").stat.exists
+      when: not miniforge_stat.stat.exists
     
     - name: Remove Miniforge installer script after installation if it exists
       ansible.builtin.file:
@@ -116,16 +121,27 @@
         force: true
 
     - name: Ensure eth0 is configured for DHCP with NetworkManager
+      become: true
       community.general.nmcli:
         conn_name: wired_ethernet
         ifname: eth0
         type: ethernet
         state: present
+        route_metric4: 100
         autoconnect: yes
-        ip4: ""  # Empty means DHCP
+        ip4: null  # null means DHCP
 
     - name: Remove default wired connection 1 with NetworkManager
+      become: true
       community.general.nmcli:
-        conn_name: wired_ethernet
+        conn_name: Wired connection 1
         state: absent 
 
+    - name: Configure NetworkManager.conf to check connectivity for route metric adjustment
+      become: true
+      ansible.builtin.blockinfile:
+        path: /etc/NetworkManager/NetworkManager.conf
+        block: |
+          [connectivity]
+          uri=http://network-test.debian.org/nm
+          interval=10

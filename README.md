@@ -8,11 +8,19 @@ The `bookworm` branch assumes Raspberry Pi OS based on Debian Bookworm.
 
 ## Initial Setup
 
-Install Ansible from the Ubuntu PPA
+This assumes that a new SD card has been imaged with Raspberry Pi OS Lite, 64 bit edition, and set up with the following:
 
+ - A hostname compatible with `ansible_setup/hosts` 
+ - The user `dan` 
+ - SSH public keys for the host computer, SSH-only allowed 
 
+## Ansible Commissioning
 
-After cloning the repo into my home directory:
+Install Ansible from the Ubuntu PPA on the host computer as described here:
+
+https://docs.ansible.com/projects/ansible/latest/installation_guide/installation_distros.html#installing-ansible-on-ubuntu
+
+After cloning the repo into the home directory on a host computer and installing Ansible, you can run:
 
 ```
 ansible-playbook -i ~/dz_rpi_config/ansible_setup/hosts ~/dz_rpi_config/ansible_setup/playbook.yml
@@ -20,40 +28,15 @@ ansible-playbook -i ~/dz_rpi_config/ansible_setup/hosts ~/dz_rpi_config/ansible_
 
 After this, `~/.bashrc` will incorporate all the changes in `bash_config/.bashrc_additions` and `~/.bash_aliases` and `~/.inputrc` will be softlinks that point to their counterparts in this repo.
 
-## dtoverlay Setup 
+Ansible automatically sets everything up according to the tasks in [`ansible_setup/playbook.yml`](./ansible_setup/playbook.yml). 
 
-### CANBus
+So I've cleaned up the `bookworm` branch to remove unnecessary files and scripts and to reflect Ansible's handling of:
 
-This is now handled by Ansible
+ - Cloning this repo and softlinking the Bash setup files
+ - Setting up DHCP wired ethernet using `nmcli` and cleaning up unused connections
+ - Setting up NetworkManager to do connectivity checks to help auto-switch the default route between wired and wireless interfaces
+ - Installing needed `apt` packages
+ - Setting up `/boot/firmware/config.txt` for SPI, MCP2515 CANBus, backup battery charging, etc.
+ - Installing Miniforge3, creating a Robostack ROS 2 Jazzy environment, and installing `ros-jazzy-desktop`
 
-## Network Setup
-
-This copies the file `network/99-eth0-dhcp.yaml` to `/etc/netplan` and sets permissions.
-
-## Install Conda
-
-Download the latest `miniforge3` from https://github.com/conda-forge/miniforge
-
-```
-cd ~/Downloads
-wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh
-```
-
-Then install using the "quiet" trick, so that there are no permanent mods to `.bashrc`:
-
-```
- bash ~/Downloads/Miniforge3-Linux-aarch64.sh -b -s -p ~/.local/opt/miniforge3
- mkdir -p ~/.local/bin
- ln -s ~/.local/opt/miniforge3/condabin/conda ~/.local/bin/conda
-```
-
-Then you can enter the `(base)` Conda environment using `conda-setup` from `.bash_aliases`.
-
-This keeps, for example, a clean separation between ROS 2 and Conda environments.
-
-## Install ROS 2
-
-Follow the instructions at https://github.com/danzimmerman/dz_rpi_config/wiki/installing_ros2#ros-2-jazzy-source-install to see some quirks and tweaks for Bookworm source install.
-
-Don't modify `.bashrc` for sourcing the workspace `local_setup.bash` script. The `ros2-setup` command in `.bash_aliases` does this and also adds a `(jazzy)` to the ROS 2 prompt.
-
+This list may not include all up-to-date tasks. See `playbook.yml` as the definitive reference.

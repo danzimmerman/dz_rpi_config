@@ -1,4 +1,0 @@
-
-if [ -f ~/dz_rpi_config/bash_config/.bashrc_additions ]; then
-    . ~/dz_rpi_config/bash_config/.bashrc_additions
-fi

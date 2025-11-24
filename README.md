@@ -15,7 +15,7 @@ Install Ansible from the Ubuntu PPA
 After cloning the repo into my home directory:
 
 ```
-ansible-playbook -i ~/dz_rpi_config/init-setup-playbook/hosts ~/dz_rpi_config/init-setup-playbook/playbook.yml
+ansible-playbook -i ~/dz_rpi_config/ansible_setup/hosts ~/dz_rpi_config/ansible_setup/playbook.yml
 ```
 
 After this, `~/.bashrc` will incorporate all the changes in `bash_config/.bashrc_additions` and `~/.bash_aliases` and `~/.inputrc` will be softlinks that point to their counterparts in this repo.

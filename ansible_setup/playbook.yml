@@ -1,5 +1,10 @@
 - hosts: all
   tasks:
+    - name: Ensure community.general collection is installed
+      ansible.builtin.ansible_galaxy_collection:
+        name: community.general
+        state: present
+
     - name: Install required apt packages
       become: true
       ansible.builtin.apt:
@@ -111,3 +116,18 @@
         dest: "/home/dan/.local/bin/conda"
         state: link
         force: true
+
+    - name: Ensure eth0 is configured for DHCP with NetworkManager
+      community.general.nmcli:
+        conn_name: wired_ethernet
+        ifname: eth0
+        type: ethernet
+        state: present
+        autoconnect: yes
+        ip4: ""  # Empty means DHCP
+
+    - name: Remove default wired connection 1 with NetworkManager
+      community.general.nmcli:
+        conn_name: wired_ethernet
+        state: absent 
+

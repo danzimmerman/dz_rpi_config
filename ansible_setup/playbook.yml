@@ -1,6 +1,5 @@
 - hosts: rpis
   tasks:
-
     - name: Install required apt packages
       become: true
       ansible.builtin.apt:

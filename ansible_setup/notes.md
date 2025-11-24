@@ -16,3 +16,7 @@ For dual static IP
     gw4: 192.168.1.1
     autoconnect: yes
 ```
+
+### Public SSH Keys
+
+See https://docs.ansible.com/projects/ansible/latest/collections/ansible/posix/authorized_key_module.html#examples

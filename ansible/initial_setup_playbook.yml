@@ -17,6 +17,7 @@
           - iftop
           - linux-image-rpi-v8-rt
           - nload
+          - rt-tests
           - stress
           - tmux
         state: present

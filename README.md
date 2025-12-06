@@ -43,7 +43,7 @@ This list may not include all up-to-date tasks. See `playbook.yml` as the defini
 
 ## Realtime Testing
 
-This automated config provides an easy way to get the `PREEMPT_RT` kernel set up using the experimental kernel builds here:
+This automated config provides an easy way to get the `PREEMPT_RT` kernel set up using the experimental kernel builds here: https://forums.raspberrypi.com/viewtopic.php?t=388298
 
 Cyclictest results:
 

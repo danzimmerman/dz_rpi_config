@@ -23,7 +23,7 @@ https://docs.ansible.com/projects/ansible/latest/installation_guide/installation
 After cloning the repo into the home directory on a host computer and installing Ansible, you can run:
 
 ```
-ansible-playbook -i ~/dz_rpi_config/ansible_setup/hosts ~/dz_rpi_config/ansible_setup/playbook.yml
+ansible-playbook -i ~/dz_rpi_config/ansible/hosts ~/dz_rpi_config/ansible/initial_setup_playbook.yml
 ```
 
 After this, `~/.bashrc` will incorporate all the changes in `bash_config/.bashrc_additions` and `~/.bash_aliases` and `~/.inputrc` will be softlinks that point to their counterparts in this repo.

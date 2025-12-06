@@ -4,13 +4,13 @@ Semi-automatic setup of a Raspberry Pi with my desired bash additions, packages 
 
 The `main` branch assumes Ubuntu Noble. I'm using Ubuntu Server.
 
-The `bookworm` branch assumes Raspberry Pi OS based on Debian Bookworm.
+The `trixie` branch assumes Raspberry Pi OS based on Debian Trixie.
 
 ## Initial Setup
 
 This assumes that a new SD card has been imaged with Raspberry Pi OS Lite, 64 bit edition, and set up with the following:
 
- - A hostname compatible with `ansible_setup/hosts` 
+ - A hostname compatible with `ansible/hosts` 
  - The user `dan` 
  - SSH public keys for the host computer, SSH-only allowed 
 

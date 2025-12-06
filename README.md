@@ -40,3 +40,22 @@ So I've cleaned up the `bookworm` branch to remove unnecessary files and scripts
  - Installing Miniforge3, creating a Robostack ROS 2 Jazzy environment, and installing `ros-jazzy-desktop`
 
 This list may not include all up-to-date tasks. See `playbook.yml` as the definitive reference.
+
+## Realtime Testing
+
+This automated config provides an easy way to get the `PREEMPT_RT` kernel set up using the experimental kernel builds here:
+
+Cyclictest results:
+
+```
+dan@meitner:~ $ sudo cyclictest -a -t -p99
+# /dev/cpu_dma_latency set to 0us
+policy: fifo: loadavg: 0.15 0.13 0.10 2/234 2838          
+
+T: 0 ( 2831) P:99 I:1000 C: 286063 Min:      1 Act:    3 Avg:    2 Max:      18
+T: 1 ( 2832) P:99 I:1500 C: 190708 Min:      2 Act:    2 Avg:    2 Max:      15
+T: 2 ( 2833) P:99 I:2000 C: 143031 Min:      2 Act:    3 Avg:    3 Max:      17
+T: 3 ( 2834) P:99 I:2500 C: 114425 Min:      2 Act:    3 Avg:    3 Max:      14
+```
+
+This is working, maybe a little worse than what I reported with the self-built kernel [in the Wiki](https://github.com/danzimmerman/dz_rpi_config/wiki/preempt_rt_kernel#10-test-the-installation).

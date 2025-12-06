@@ -30,9 +30,10 @@ After this, `~/.bashrc` will incorporate all the changes in `bash_config/.bashrc
 
 Ansible automatically sets everything up according to the tasks in [`ansible/initial_setup_playbook.yml`](./ansible/initial_setup_playbook.yml). 
 
-So I've cleaned up the `bookworm` branch to remove unnecessary files and scripts and to reflect Ansible's handling of:
+So I've cleaned up the `trixie` branch to remove unnecessary files and scripts and to reflect Ansible's handling of:
 
  - Cloning this repo and softlinking the Bash setup files
+ - Installing the `PREEMPT_RT` kernel from Raspberry Pi binaries and setting up the `realtime` group and user permissions for this
  - Setting up DHCP wired ethernet using `nmcli` and cleaning up unused connections
  - Setting up NetworkManager to do connectivity checks to help auto-switch the default route between wired and wireless interfaces
  - Installing needed `apt` packages

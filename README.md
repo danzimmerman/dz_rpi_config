@@ -28,7 +28,7 @@ ansible-playbook -i ~/dz_rpi_config/ansible/hosts ~/dz_rpi_config/ansible/initia
 
 After this, `~/.bashrc` will incorporate all the changes in `bash_config/.bashrc_additions` and `~/.bash_aliases` and `~/.inputrc` will be softlinks that point to their counterparts in this repo.
 
-Ansible automatically sets everything up according to the tasks in [`ansible_setup/playbook.yml`](./ansible_setup/playbook.yml). 
+Ansible automatically sets everything up according to the tasks in [`ansible/initial_setup_playbook.yml`](./ansible/initial_setup_playbook.yml). 
 
 So I've cleaned up the `bookworm` branch to remove unnecessary files and scripts and to reflect Ansible's handling of:
 

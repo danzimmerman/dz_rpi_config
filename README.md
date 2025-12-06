@@ -48,14 +48,14 @@ This automated config provides an easy way to get the `PREEMPT_RT` kernel set up
 Cyclictest results:
 
 ```
-dan@meitner:~ $ sudo cyclictest -a -t -p99
+user@computer:~ $ sudo cyclictest -a -t -p99
 # /dev/cpu_dma_latency set to 0us
-policy: fifo: loadavg: 0.15 0.13 0.10 2/234 2838          
+policy: fifo: loadavg: 7.60 3.43 1.37 2/238 2910           
 
-T: 0 ( 2831) P:99 I:1000 C: 286063 Min:      1 Act:    3 Avg:    2 Max:      18
-T: 1 ( 2832) P:99 I:1500 C: 190708 Min:      2 Act:    2 Avg:    2 Max:      15
-T: 2 ( 2833) P:99 I:2000 C: 143031 Min:      2 Act:    3 Avg:    3 Max:      17
-T: 3 ( 2834) P:99 I:2500 C: 114425 Min:      2 Act:    3 Avg:    3 Max:      14
+T: 0 ( 2907) P:99 I:1000 C:  74458 Min:      1 Act:    1 Avg:    2 Max:      13
+T: 1 ( 2908) P:99 I:1500 C:  49639 Min:      1 Act:    1 Avg:    2 Max:       9
+T: 2 ( 2909) P:99 I:2000 C:  37229 Min:      1 Act:    1 Avg:    2 Max:      10
+T: 3 ( 2910) P:99 I:2500 C:  29783 Min:      1 Act:    1 Avg:    2 Max:      11
 ```
 
-This is working, maybe a little worse than what I reported with the self-built kernel [in the Wiki](https://github.com/danzimmerman/dz_rpi_config/wiki/preempt_rt_kernel#10-test-the-installation).
+This is working, similar to what I reported with the self-built kernel [in the Wiki](https://github.com/danzimmerman/dz_rpi_config/wiki/preempt_rt_kernel#10-test-the-installation).

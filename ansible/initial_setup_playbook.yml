@@ -51,7 +51,7 @@
       ansible.builtin.git:
         repo: "https://github.com/danzimmerman/dz_rpi_config.git"
         dest: "/home/dan/dz_rpi_config"
-        version: "bookworm"
+        version: "trixie"
 
     - name: Ensure ~/.bash_aliases is a symlink to repo version
       become: true

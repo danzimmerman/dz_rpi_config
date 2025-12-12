@@ -215,8 +215,21 @@
         cmd: "/home/dan/.local/bin/conda create -y -n jazzy -c conda-forge -c robostack-jazzy ros-jazzy-desktop ros-jazzy-sbg-driver"
         creates: "/home/dan/.local/opt/miniforge3/envs/jazzy"
       when: not jazzy_env_stat.stat.exists
-    
-    - name: Activate env and add robostack channel using shell commands
+
+    - name: Check if Robostack (kilted) env is already installed
+      ansible.builtin.stat:
+        path: "/home/dan/.local/opt/miniforge3/envs/kilted"
+      register: kilted_env_stat
+      
+    - name: Create Robostack (kilted) conda environment if not already present
+      become: true
+      become_user: dan
+      ansible.builtin.command:
+        cmd: "/home/dan/.local/bin/conda create -y -n kilted -c conda-forge -c robostack-kilted ros-kilted-desktop"
+        creates: "/home/dan/.local/opt/miniforge3/envs/kilted"
+      when: not kilted_env_stat.stat.exists
+
+    - name: Activate env and add robostack-jazzy channel using shell commands
       become: true
       become_user: dan
       ansible.builtin.shell: |
@@ -226,6 +239,17 @@
       args:
         executable: /bin/bash
       when: not jazzy_env_stat.stat.exists
+
+    - name: Activate env and add robostack-kilted channel using shell commands
+      become: true
+      become_user: dan
+      ansible.builtin.shell: |
+        source /home/dan/.local/opt/miniforge3/bin/activate kilted
+        conda config --add channels conda-forge
+        conda config --add channels robostack-kilted
+      args:
+        executable: /bin/bash
+      when: not kilted_env_stat.stat.exists
 
     - name: Add realtime group
       become: true

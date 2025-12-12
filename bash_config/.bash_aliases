@@ -32,5 +32,8 @@ ros2-this(){
     echo ./install/local_setup.bash not found. Maybe an un-built workspace?
   fi
 }
+conda-ros2(){
+  conda-setup && conda activate jazzy
+}
 alias rpi-temp="vcgencmd measure_temp && vcgencmd get_throttled"
 alias dubig="du -h | sort -h -k1 -r"

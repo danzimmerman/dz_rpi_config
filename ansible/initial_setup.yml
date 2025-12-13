@@ -133,20 +133,7 @@
       notify:
         - enable_and_start_canbus_service_handler
     
-    - name: Check if Miniforge is already installed
-      ansible.builtin.stat:
-        path: "/home/dan/.local/opt/miniforge3"
-      register: miniforge_stat
-
-    - name: Download miniforge installer script if miniconda3 is not already installed
-      become: true
-      become_user: dan # typically install conda as non-root user
-      ansible.builtin.get_url:
-        url: "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh"
-        dest: "/tmp/miniforge3-latest-Linux-aarch64.sh"
-        mode: "0755"
-      when: not miniforge_stat.stat.exists
-
+    # this is required for Robostack / Miniforge but I might want it for other purposes
     - name: Set up .local/bin directory
       become: true
       become_user: dan
@@ -154,28 +141,6 @@
         path: "/home/dan/.local/bin"
         state: directory
         mode: "0755"
-
-    - name: Install Miniforge if it's not already installed
-      become: true
-      become_user: dan  
-      ansible.builtin.command:
-        cmd: "/tmp/miniforge3-latest-Linux-aarch64.sh -b -s -p /home/dan/.local/opt/miniforge3"
-        creates: "/home/dan/.local/opt/miniforge3"
-      when: not miniforge_stat.stat.exists
-    
-    - name: Remove Miniforge installer script after installation if it exists
-      ansible.builtin.file:
-        path: "/tmp/miniforge3-latest-Linux-aarch64.sh"
-        state: absent
-
-    - name: Softlink conda binary to ~/.local/bin
-      become: true
-      become_user: dan
-      ansible.builtin.file:
-        src: "/home/dan/.local/opt/miniforge3/bin/conda"
-        dest: "/home/dan/.local/bin/conda"
-        state: link
-        force: true
 
     - name: Ensure eth0 is configured for DHCP with NetworkManager
       become: true

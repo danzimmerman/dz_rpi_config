@@ -1,60 +1,98 @@
 - hosts: rpis
-  rosdistros: 
-    - jazzy
-    - kilted
+  vars:
+    rosdistros:
+      - jazzy
+      - kilted
   tasks:
-    - name: Check if Robostack (jazzy) env is already installed
+    - name: Check if Miniforge is already installed
       ansible.builtin.stat:
-        path: "/home/dan/.local/opt/miniforge3/envs/jazzy"
-      register: jazzy_env_stat
+        path: "/home/dan/.local/opt/miniforge3"
+      register: miniforge_stat
 
-    - name: Create Robostack (jazzy) conda environment if not already present
+    - name: Download miniforge installer script if miniconda3 is not already installed
+      become: true
+      become_user: dan # typically install conda as non-root user
+      ansible.builtin.get_url:
+        url: "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh"
+        dest: "/tmp/miniforge3-latest-Linux-aarch64.sh"
+        mode: "0755"
+      when: not miniforge_stat.stat.exists
+
+    - name: Install Miniforge if it's not already installed
+      become: true
+      become_user: dan  
+      ansible.builtin.command:
+        cmd: "/tmp/miniforge3-latest-Linux-aarch64.sh -b -s -p /home/dan/.local/opt/miniforge3"
+        creates: "/home/dan/.local/opt/miniforge3"
+      when: not miniforge_stat.stat.exists
+    
+    - name: Remove Miniforge installer script after installation if it exists
+      ansible.builtin.file:
+        path: "/tmp/miniforge3-latest-Linux-aarch64.sh"
+        state: absent
+
+    - name: Softlink conda binary to ~/.local/bin
       become: true
       become_user: dan
-      ansible.builtin.command:
-        cmd: "/home/dan/.local/bin/conda create -y -n jazzy -c conda-forge -c robostack-jazzy ros-jazzy-desktop ros-jazzy-sbg-driver"
-        creates: "/home/dan/.local/opt/miniforge3/envs/jazzy"
-      when: not jazzy_env_stat.stat.exists
+      ansible.builtin.file:
+        src: "/home/dan/.local/opt/miniforge3/bin/conda"
+        dest: "/home/dan/.local/bin/conda"
+        state: link
+        force: true
 
-    - name: Check if Robostack (kilted) env is already installed
+    - name: Check if Robostack ({{item}}) env is already installed
       ansible.builtin.stat:
-        path: "/home/dan/.local/opt/miniforge3/envs/kilted"
-      register: kilted_env_stat
+        path: "/home/dan/.local/opt/miniforge3/envs/{{item}}"
+      register: "{{item}}_env_stat"
+      loop: "{{ rosdistros }}"
+
+    # - name: Create Robostack (jazzy) conda environment if not already present
+    #   become: true
+    #   become_user: dan
+    #   ansible.builtin.command:
+    #     cmd: "/home/dan/.local/bin/conda create -y -n jazzy -c conda-forge -c robostack-jazzy ros-jazzy-desktop"
+    #     creates: "/home/dan/.local/opt/miniforge3/envs/jazzy"
+    #   when: not jazzy_env_stat.stat.exists
+
+    # - name: Check if Robostack (kilted) env is already installed
+    #   ansible.builtin.stat:
+    #     path: "/home/dan/.local/opt/miniforge3/envs/kilted"
+    #   register: kilted_env_stat
       
-    - name: Create Robostack (kilted) conda environment if not already present
-      become: true
-      become_user: dan
-      ansible.builtin.command:
-        cmd: "/home/dan/.local/bin/conda create -y -n kilted -c conda-forge -c robostack-kilted ros-kilted-desktop"
-        creates: "/home/dan/.local/opt/miniforge3/envs/kilted"
-      when: not kilted_env_stat.stat.exists
+    # - name: Create Robostack (kilted) conda environment if not already present
+    #   become: true
+    #   become_user: dan
+    #   ansible.builtin.command:
+    #     cmd: "/home/dan/.local/bin/conda create -y -n kilted -c conda-forge -c robostack-kilted ros-kilted-desktop"
+    #     creates: "/home/dan/.local/opt/miniforge3/envs/kilted"
+    #   when: not kilted_env_stat.stat.exists
 
-    - name: Activate env and add robostack-jazzy channel using shell commands
-      become: true
-      become_user: dan
-      ansible.builtin.shell: |
-        source /home/dan/.local/opt/miniforge3/bin/activate jazzy
-        conda config --add channels conda-forge
-        conda config --add channels robostack-jazzy
-      args:
-        executable: /bin/bash
-      when: not jazzy_env_stat.stat.exists
+    # - name: Activate env and add robostack-jazzy channel using shell commands
+    #   become: true
+    #   become_user: dan
+    #   ansible.builtin.shell: |
+    #     source /home/dan/.local/opt/miniforge3/bin/activate jazzy
+    #     conda config --add channels conda-forge
+    #     conda config --add channels robostack-jazzy
+    #   args:
+    #     executable: /bin/bash
+    #   when: not jazzy_env_stat.stat.exists
 
-    - name: Activate env and add robostack-kilted channel using shell commands
-      become: true
-      become_user: dan
-      ansible.builtin.shell: |
-        source /home/dan/.local/opt/miniforge3/bin/activate kilted
-        conda config --add channels conda-forge
-        conda config --add channels robostack-kilted
-      args:
-        executable: /bin/bash
-      when: not kilted_env_stat.stat.exists
+    # - name: Activate env and add robostack-kilted channel using shell commands
+    #   become: true
+    #   become_user: dan
+    #   ansible.builtin.shell: |
+    #     source /home/dan/.local/opt/miniforge3/bin/activate kilted
+    #     conda config --add channels conda-forge
+    #     conda config --add channels robostack-kilted
+    #   args:
+    #     executable: /bin/bash
+    #   when: not kilted_env_stat.stat.exists
 
-    # I will run rosdep interactively and then save a Conda env YAML file for automated setup
-    - name: Create ROS2 workspace directory
-      become: true
-      become_user: dan
-      ansible.builtin.file: 
-        path: /home/dan/ros2ws/src 
-        state: directory
+    # # I will run rosdep interactively and then save a Conda env YAML file for automated setup
+    # - name: Create ROS2 workspace directory
+    #   become: true
+    #   become_user: dan
+    #   ansible.builtin.file: 
+    #     path: /home/dan/ros2ws/src 
+    #     state: directory

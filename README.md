@@ -23,7 +23,7 @@ https://docs.ansible.com/projects/ansible/latest/installation_guide/installation
 After cloning the repo into the home directory on a host computer and installing Ansible, you can run:
 
 ```
-ansible-playbook -i ~/dz_rpi_config/ansible/hosts ~/dz_rpi_config/ansible/initial_setup_playbook.yml
+ansible-playbook -i ~/dz_rpi_config/ansible/hosts ~/dz_rpi_config/ansible/initial_setup.yml
 ```
 
 After this, `~/.bashrc` will incorporate all the changes in `bash_config/.bashrc_additions` and `~/.bash_aliases` and `~/.inputrc` will be softlinks that point to their counterparts in this repo.
@@ -38,9 +38,14 @@ So I've cleaned up the `trixie` branch to remove unnecessary files and scripts a
  - Setting up NetworkManager to do connectivity checks to help auto-switch the default route between wired and wireless interfaces
  - Installing needed `apt` packages
  - Setting up `/boot/firmware/config.txt` for SPI, MCP2515 CANBus, backup battery charging, etc.
- - Installing Miniforge3, creating a Robostack ROS 2 Jazzy environment, and installing `ros-jazzy-desktop`
 
-This list may not include all up-to-date tasks. See `playbook.yml` as the definitive reference.
+This list may not include all up-to-date tasks. See the playboox in the `ansible` directory as the definitive reference.
+
+### Robostack ROS 2 Setup With Ansible
+
+```
+ansible-playbook -i ~/dz_rpi_config/ansible/hosts ~/dz_rpi_config/ansible/ros2_robostack_setup.yml
+```
 
 ## Realtime Testing
 

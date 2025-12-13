@@ -161,11 +161,12 @@
       become: true
       ansible.builtin.blockinfile:
         path: /etc/NetworkManager/NetworkManager.conf
+        marker: "# {mark} ANSIBLE MANAGED BLOCK FOR ADJUSTING ROUTE METRICS BASED ON CONNECTIVITY"
         block: |
           [connectivity]
           uri=http://network-test.debian.org/nm
           interval=10
-          
+
   handlers:
     - name: enable_and_start_canbus_service_handler
       become: true

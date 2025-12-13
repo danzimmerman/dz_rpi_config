@@ -1,0 +1,5 @@
+- hosts: rpis
+  tasks:
+    - name: Placeholder task
+      ansible.builtin.debug:
+        msg: "This is a placeholder for the ublox_f9p_setup playbook."

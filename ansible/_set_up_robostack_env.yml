@@ -1,0 +1,28 @@
+- name: Check if Robostack ({{item}}) env is already created
+  ansible.builtin.stat:
+    path: "/home/dan/.local/opt/miniforge3/envs/{{item}}"
+  register: "current_env_stat"
+
+- name: Create Robostack ({{item}}) conda environment if not already present
+  become: true
+  become_user: dan
+  ansible.builtin.command:
+    cmd: "/home/dan/.local/bin/conda create -y -n {{item}} -c conda-forge -c robostack-{{item}} ros-{{item}}-desktop"
+    creates: "/home/dan/.local/opt/miniforge3/envs/{{item}}"
+  when: not "current_env_stat.stat.exists"
+
+- name: Make sure conda channels are set for Robostack ({{item}}) env
+  become: true
+  become_user: dan
+  ansible.builtin.blockinfile:
+    path: "/home/dan/.local/opt/miniforge3/envs/{{item}}/.condarc"
+    create: true
+    marker: "# {mark} ANSIBLE MANAGED BLOCK - ROBOSTACK {{item}} CHANNELS"
+    block: |
+      channels:
+        - robostack-{{item}}
+        - conda-forge
+      mirrored_channels:
+        conda-forge:
+          - https://conda.anaconda.org/conda-forge
+          - https://prefix.dev/conda-forge

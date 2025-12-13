@@ -33,7 +33,6 @@ Ansible automatically sets everything up according to the tasks in [`ansible/ini
 So I've cleaned up the `trixie` branch to remove unnecessary files and scripts and to reflect Ansible's handling of:
 
  - Cloning this repo and softlinking the Bash setup files
- - Installing the `PREEMPT_RT` kernel from Raspberry Pi binaries and setting up the `realtime` group and user permissions for this
  - Setting up DHCP wired ethernet using `nmcli` and cleaning up unused connections
  - Setting up NetworkManager to do connectivity checks to help auto-switch the default route between wired and wireless interfaces
  - Installing needed `apt` packages
@@ -41,7 +40,15 @@ So I've cleaned up the `trixie` branch to remove unnecessary files and scripts a
 
 This list may not include all up-to-date tasks. See the playboox in the `ansible` directory as the definitive reference.
 
-### Robostack ROS 2 Setup With Ansible
+### Real Time `PREEMPT_RT` Kernel Setup With Ansible (Optional)
+
+```
+ansible-playbook -i ~/dz_rpi_config/ansible/hosts ~/dz_rpi_config/ansible realtime_rpi_setup.yml
+```
+
+This installs the `PREEMPT_RT` kernel from Raspberry Pi binaries as well as realtime testing/profiling tools and sets up the `realtime` group and user permissions.
+
+### Robostack ROS 2 Setup With Ansible (Optional)
 
 ```
 ansible-playbook -i ~/dz_rpi_config/ansible/hosts ~/dz_rpi_config/ansible/ros2_robostack_setup.yml

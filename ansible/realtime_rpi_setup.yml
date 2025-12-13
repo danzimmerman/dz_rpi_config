@@ -1,0 +1,36 @@
+- hosts: realtime_rpis
+  tasks:  
+    - name: Install realtime kernel and test packages
+      become: true
+      ansible.builtin.apt:
+        name:
+          - linux-image-rpi-v8-rt
+          - rt-tests
+        state: present
+        update_cache: true #runs apt-get update if needed
+
+    - name: Add realtime group
+      become: true
+      ansible.builtin.group:
+        name: realtime
+        state: present
+    
+    - name: Add user dan to realtime group
+      become: true
+      ansible.builtin.user:
+        name: dan
+        groups: realtime
+        append: true
+
+    - name: Configure /etc/security/limits.conf for realtime group
+      become: true
+      ansible.builtin.blockinfile:
+        path: /etc/security/limits.conf
+        block: |
+          # For RT kernel and ROS 2
+          @realtime soft rtprio 99
+          @realtime soft priority 99
+          @realtime soft memlock unlimited
+          @realtime hard rtprio 99
+          @realtime hard priority 99
+          @realtime hard memlock unlimited

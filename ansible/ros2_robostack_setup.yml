@@ -1,7 +1,6 @@
 - hosts: rpis
   vars:
     rosdistros:
-      - humble
       - jazzy
       - kilted
   tasks:
@@ -31,6 +30,12 @@
       ansible.builtin.file:
         path: "/tmp/miniforge3-latest-Linux-aarch64.sh"
         state: absent
+
+    - name: Update the conda base environment
+      become: true
+      become_user: dan
+      ansible.builtin.command:
+        cmd: "/home/dan/.local/opt/miniforge3/bin/conda update -n base -c conda-forge conda -y"
 
     - name: Softlink conda binary to ~/.local/bin
       become: true

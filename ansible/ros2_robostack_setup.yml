@@ -1,6 +1,7 @@
 - hosts: rpis
   vars:
     rosdistros:
+      - humble
       - jazzy
       - kilted
   tasks:

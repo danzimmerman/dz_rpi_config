@@ -26,3 +26,5 @@
         conda-forge:
           - https://conda.anaconda.org/conda-forge
           - https://prefix.dev/conda-forge
+      plugins:
+        use_sharded_repodata: true

@@ -1,5 +1,18 @@
-- hosts: rpis
+- hosts: gps
   tasks:
-    - name: Placeholder task
-      ansible.builtin.debug:
-        msg: "This is a placeholder for the ublox_f9p_setup playbook."
+    - name: Add ublox F9P udev rule to rename ttyACM devices and add plugdev 
+      become: true  
+      copy:
+        dest: /etc/udev/rules.d/99-ublox-f9p.rules
+        content: |
+          SUBSYSTEM=="tty", ATTRS{idVendor}=="1546", ATTRS{idProduct}=="01a9", SYMLINK+="ttyF9P"
+          ATTRS{idVendor}=="1546", ATTRS{idProduct}=="01a9", MODE="0666", GROUP="plugdev", ENV{ID_MM_DEVICE_IGNORE}="1"
+      notify: Reload udev rules
+  
+  handlers:
+    - name: Reload udev rules
+      become: true  
+      ansible.builtin.command:
+        cmd: |
+          udevadm control --reload-rules 
+          udevadm trigger

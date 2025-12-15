@@ -54,6 +54,16 @@ This installs the `PREEMPT_RT` kernel from Raspberry Pi binaries as well as real
 ansible-playbook -i ~/dz_rpi_config/ansible/hosts ~/dz_rpi_config/ansible/ros2_robostack_setup.yml
 ```
 
+### GPS Setup With Ansible (Optional)
+
+This is for setting up the uBlox F9P `udev` rules and `gpsd`
+
+It is not only for the Pi, it assumes Ansible has access to `localhost`.
+
+```
+ansible-playbook -i ~/dz_rpi_config/ansible/hosts ~/dz_rpi_config/ansible/ublox_f9p_setup.yml --ask-become-pass
+```
+
 ## Realtime Testing
 
 This automated config provides an easy way to get the `PREEMPT_RT` kernel set up using the experimental kernel builds here: https://forums.raspberrypi.com/viewtopic.php?t=388298

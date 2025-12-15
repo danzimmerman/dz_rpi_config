@@ -3,3 +3,7 @@ meitner
 
 [realtime_rpis]
 meitner
+
+[gps]
+meitner
+localhost

@@ -5,3 +5,7 @@ export ROS_DOMAIN_ID=17
 export PATH=$PATH:~/.local/bin
 export ZENOH_ROUTER_CONFIG_URI=$HOME/dz_rpi_config/zenoh/HOME_LOCAL_RMW_ZENOH_ROUTER_CONFIG.json5
 export RCUTILS_COLORIZED_OUTPUT=1
+
+# argcomplete for ros2 & colcon
+eval "$(register-python-argcomplete ros2)"
+eval "$(register-python-argcomplete colcon)"

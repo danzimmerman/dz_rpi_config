@@ -34,3 +34,13 @@
           @realtime hard rtprio 99
           @realtime hard priority 99
           @realtime hard memlock unlimited
+
+    - name: Activate realtime kernel in config.txt
+      become: true
+      ansible.builtin.blockinfile:
+        marker: "# {mark} ANSIBLE MANAGED BLOCK FOR REALTIME KERNEL ACTIVATION"
+        path: /boot/firmware/config.txt
+        block: |
+          # Use real-time kernel
+          kernel=kernel8_rt.img
+

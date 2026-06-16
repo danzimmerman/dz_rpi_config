@@ -100,9 +100,6 @@
           # Disable Command Queueing for Samsung 128GB Card
           dtparam=sd_cqe=off
 
-          # Use real-time kernel https://forums.raspberrypi.com/viewtopic.php?t=388298
-          kernel=kernel8_rt.img
-
           # Recommended DEBUG from RT kernel page above
           enable_uart=1
           uart_2ndstage=1

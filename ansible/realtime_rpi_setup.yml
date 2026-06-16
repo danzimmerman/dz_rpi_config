@@ -44,3 +44,9 @@
           # Use real-time kernel
           kernel=kernel8_rt.img
 
+          # Recommended DEBUG from https://forums.raspberrypi.com/viewtopic.php?t=388298
+          enable_uart=1
+          uart_2ndstage=1
+          dtoverlay=disable-bt
+          arm_64bit=1
+

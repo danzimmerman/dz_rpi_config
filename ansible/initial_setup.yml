@@ -100,12 +100,6 @@
           # Disable Command Queueing for Samsung 128GB Card
           dtparam=sd_cqe=off
 
-          # Recommended DEBUG from RT kernel page above
-          enable_uart=1
-          uart_2ndstage=1
-          dtoverlay=disable-bt
-          arm_64bit=1
-
     - name: Add service to bring CANbus up at boot at 1MBit/s and set queue length to 1000
       become: true
       ansible.builtin.copy:

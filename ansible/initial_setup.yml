@@ -18,6 +18,8 @@
           - nload
           - stress
           - tmux
+          - util-linux
+          - util-linux-extra
         state: present
         update_cache: true #runs apt-get update if needed
 
